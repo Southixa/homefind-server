@@ -16,15 +16,16 @@ const UploadImage = async (img, oldImag) => {
       await cloudinary.uploader.destroy(img_id);
     }
 
+    //MEAN: Upload image to cloudinary Select Specify the folder name and settings type image is auto
     const res_upload = await cloudinary.uploader.upload(img, null, {
-      folder: "HomeFind", // Specify the folder name in Cloudinary
+      folder: "HomeFind",
       resource_type: "auto",
     });
 
     return res_upload.url;
   } catch (error) {
     console.log(error);
-    throw error; // Propagate the error to the calling function
+    throw error;
   }
 };
 

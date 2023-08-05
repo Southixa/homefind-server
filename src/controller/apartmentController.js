@@ -12,6 +12,8 @@ class ApartmentController {
             if (!apartment) {
                 return res.status(400).json({ msg: statusMessage.APARTMENT_NOT_FOND })
             };
+
+            //MEAN: Plus field views when click to view details
             await Models.apartment.findByIdAndUpdate(req.params._id, { $inc: { views: 1 } }, { new: true })
             return res.status(200).json({ msg: statusMessage.GET_SUCCESS, apartment });
         } catch (error) {
@@ -22,7 +24,11 @@ class ApartmentController {
     static async getApartmentsByCustomer(req, res) {
         try {
             const search = req.query;
+
+            //MEAN: Query with where By search
             const _where = queryWithWhere(search);
+
+            //MEAN: Query only the apartmentStatus is true and with conditional where
             const apartment = await Models.apartment.find({ apartmentStatus: true, ..._where });
             return res.status(200).json({ msg: statusMessage.GET_SUCCESS, apartment });
         } catch (error) {
@@ -34,6 +40,8 @@ class ApartmentController {
         try {
             const apartmentStatus = req.query.apartmentStatus;
             let apartment
+
+            //MEAN: if user input apartmentStatus then query with status but not input Query all
             if (apartmentStatus) {
                 apartment = await Models.apartment.find({ apartmentStatus })
             }
@@ -51,6 +59,8 @@ class ApartmentController {
             if (!req.body) {
                 return res.status(400).json({ msg: statusMessage.BAD_REQUEST });
             }
+
+            //MEAN: Add ID admin who is create this apartment
             const data = {
                 ...req.body,
                 createdBy: req.payload._id.toString()
@@ -68,6 +78,8 @@ class ApartmentController {
             if (!_id) {
                 return res.status(400).json({ msg: statusMessage.BAD_REQUEST });
             }
+
+            //MEAN: Add ID admin who is update this apartment then update date time
             const data = {
                 ...req.body,
                 updatedBy: req.payload._id.toString(),

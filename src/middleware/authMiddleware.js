@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { statusMessage, tokenSet } from "../config/index.js";
 
+//MEAN: Generate Access Token
 export const GenerateToken = async (data) => {
   try {
     let token = jwt.sign(data, tokenSet.JWT_SECRET_KEY, { expiresIn: tokenSet.TOKEN_EXPIRE_TIME });
@@ -10,6 +11,7 @@ export const GenerateToken = async (data) => {
   }
 };
 
+//MEAN: Verify Token 
 export const verifyToken = async (req, res, next) => {
   const authorization = req.headers['authorization'];
   try {
@@ -25,6 +27,7 @@ export const verifyToken = async (req, res, next) => {
   }
 };
 
+//MEAN: Verify Token is a Admin
 export const verifyTokenAndAdmin = (req, res, next) => {
   verifyToken(req, res, () => {
     if (req.payload.role === "ADMIN") {
@@ -35,6 +38,7 @@ export const verifyTokenAndAdmin = (req, res, next) => {
   });
 };
 
+//MEAN: Verify Token is a Admin or staff
 export const verifyTokenAndAdminOrStaff = (req, res, next) => {
   verifyToken(req, res, () => {
     if (req.payload.role === "ADMIN" || req.payload.role === "STAFF") {

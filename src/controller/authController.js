@@ -10,6 +10,8 @@ class AuthController {
                 return res.status(400).json({ msg: statusMessage.BAD_REQUEST })
             }
             const { phoneNumber } = req.body
+
+            //MEAN: Check exist user before register
             const checkexist = await Models.user.findOne({ phoneNumber });
             if (checkexist) {
                 return res.status(400).json({ msg: statusMessage.USER_ALREADY_EXIST })
@@ -20,16 +22,17 @@ class AuthController {
                 password: hash,
             };
 
+            //MEAN: Create user
             const user = await Models.user.create(newData);
             const payload = {
                 _id: user._id,
                 role: user.role
             };
 
-            //TODO: generate token
+            //MEAN: generate token
             const accessToken = await GenerateToken(payload);
             
-            // Return user data without the password field
+            //MEAN: Return user data without the password field
             const { password, ...others } = user._doc;
 
             return res.status(200).json({
@@ -52,7 +55,7 @@ class AuthController {
                 return res.status(400).json({ msg: statusMessage.USER_NOT_FOUND });
             }
 
-            // Compare password between login and register
+            //MEAN: Compare password between login and register
             let comparePWD = await bcrypt.compare(passwordInput, user.password); // Use the renamed variable passwordInput here
             if (!comparePWD) {
                 return res.status(400).json({ msg: statusMessage.PASSWORD_NOT_MATCH });
@@ -63,10 +66,10 @@ class AuthController {
                 role: user.role
             };
 
-            // Generate token
+            //MEAN: Generate token
             const accessToken = await GenerateToken(payload);
 
-            // Return user data without the password field
+            //MEAN: Return user data without the password field
             const { password, ...others } = user._doc;
             return res.status(200).json({
                 accessToken,
