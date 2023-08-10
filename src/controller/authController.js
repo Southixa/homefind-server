@@ -16,7 +16,7 @@ class AuthController {
             if (checkexist) {
                 return res.status(400).json({ msg: statusMessage.USER_ALREADY_EXIST })
             }
-            let hash = await bcrypt.hash(phoneNumber, 10);
+            let hash = await bcrypt.hash(req.body.password, 10);
             const newData = {
                 ...req.body,
                 password: hash,

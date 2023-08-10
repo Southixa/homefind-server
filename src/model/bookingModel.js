@@ -6,23 +6,17 @@ const bookingSchema = new Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "apartment"
         },
-        apartmentAddress: {
-            village: String,
-            district: String,
-            province: String
-        },
         home: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "home"
         },
-        homeAddress: {
-            village: String,
-            district: String,
-            province: String
+        priceBooking: {
+            type: Number,
+            default: 0
         },
         bookingStatus: {
             type: String,
-            enum: ["BOOKING", "SUCCESS", "CANCEL"],
+            enum: ["BOOKING","PROCESS", "SUCCESS", "CANCEL"],
             default: "BOOKING"
         },
         createdAt: {
