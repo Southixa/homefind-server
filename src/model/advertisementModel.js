@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 const advertisementSchema = new Schema({
     name: String,
+    
     details: [{
         link:String,
         image:String,
