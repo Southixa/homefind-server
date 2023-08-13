@@ -61,7 +61,7 @@ class BookingController {
     //MEAN: Update to booking status to process
     static async updateToProcess(req, res) {
         try {
-            const { _id } = req.body;
+            const { _id, email } = req.body;
             if (!_id) {
                 return res.status(400).json({ msg: statusMessage.BAD_REQUEST });
             }
@@ -69,7 +69,6 @@ class BookingController {
             if (statusBooking.bookingStatus !== "BOOKING") {
                 return res.status(400).json({ msg: statusMessage.PERMISSION_DENIED })
             }
-            const email = statusBooking.email
             const emailInfo = await sendEmailToAdmin(email, `${statusMessage.BOOKING_MESSAGE} ${email}`);
             const data = {
                 ...req.body,
