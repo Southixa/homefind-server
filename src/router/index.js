@@ -19,7 +19,6 @@ route.delete("/user/delete/:_id",verifyTokenAndAdminOrStaff, Controllers.userCon
 route.get("/user/gets",verifyTokenAndAdminOrStaff, Controllers.userController.getUsers)
 route.get("/user/get/:_id",verifyToken, Controllers.userController.getUsers)
 
-
 //======================= uploadFile =================================
 
 route.post("/uploadFile", Controllers.uploadFileController.uploadFile)
@@ -58,6 +57,7 @@ route.put("/checkout/updateCheckout",verifyTokenAndAdmin,Controllers.checkoutCon
 route.delete("/checkout/delete/:_id",verifyTokenAndAdmin,Controllers.checkoutController.deleteCheckout)
 route.get("/checkout/get/:_id",verifyTokenAndAdminOrStaff,Controllers.checkoutController.getCheckout)
 route.get("/checkout/gets",verifyTokenAndAdmin,Controllers.checkoutController.getCheckouts)
+
 
 //======================= favoriteController ==========================
 

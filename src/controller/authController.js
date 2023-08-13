@@ -46,7 +46,7 @@ class AuthController {
     }
     static async login(req, res) {
         try {
-            const { phoneNumber, password: passwordInput } = req.body; // Rename the password variable to passwordInput
+            const { phoneNumber, password: passwordInput } = req.body;
             if (!phoneNumber || !passwordInput) {
                 return res.status(400).json({ msg: statusMessage.BAD_REQUEST });
             }
@@ -56,7 +56,7 @@ class AuthController {
             }
 
             //MEAN: Compare password between login and register
-            let comparePWD = await bcrypt.compare(passwordInput, user.password); // Use the renamed variable passwordInput here
+            let comparePWD = await bcrypt.compare(passwordInput, user.password);
             if (!comparePWD) {
                 return res.status(400).json({ msg: statusMessage.PASSWORD_NOT_MATCH });
             }
@@ -69,12 +69,7 @@ class AuthController {
             //MEAN: Generate token
             const accessToken = await GenerateToken(payload);
 
-            //MEAN: Return user data without the password field
-            const { password, ...others } = user._doc;
-            return res.status(200).json({
-                accessToken,
-                ...others
-            });
+            return res.status(200).json({accessToken});
         } catch (error) {
             return res.status(500).json(error);
         }

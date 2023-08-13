@@ -10,6 +10,7 @@ const bookingSchema = new Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "home"
         },
+        email: String,
         priceBooking: {
             type: Number,
             default: 0

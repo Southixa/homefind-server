@@ -1,4 +1,5 @@
 import { statusMessage } from "../config/index.js";
+import { sendEmail, sendEmailToAdmin } from "../middleware/sendGmailMiddleware.js";
 import { Models } from "../model/index.js";
 
 class BookingController {
@@ -51,7 +52,7 @@ class BookingController {
                 createdBy: req.payload._id.toString()
             };
             const booking = await Models.booking.create(data);
-            return res.status(201).json({ msg: statusMessage.CREATE_SUCCESS, booking });
+            return res.status(201).json({ msg: statusMessage.CREATE_SUCCESS, booking});
         } catch (error) {
             return res.status(500).json({ msg: statusMessage.SERVER_ERROR, error });
         }
@@ -65,9 +66,11 @@ class BookingController {
                 return res.status(400).json({ msg: statusMessage.BAD_REQUEST });
             }
             const statusBooking = await Models.booking.findById(_id)
-            if(statusBooking.bookingStatus !== "BOOKING"){
-                return res.status(400).json({msg: statusMessage.PERMISSION_DENIED})
+            if (statusBooking.bookingStatus !== "BOOKING") {
+                return res.status(400).json({ msg: statusMessage.PERMISSION_DENIED })
             }
+            const email = statusBooking.email
+            const emailInfo = await sendEmailToAdmin(email, `${statusMessage.BOOKING_MESSAGE} ${email}`);
             const data = {
                 ...req.body,
                 bookingStatus: "PROCESS"
@@ -78,14 +81,14 @@ class BookingController {
                 { new: true }
             );
             if (!booking) {
-                return res.status(404).json({ msg: statusMessage.NOT_FOUND });
+                return res.status(404).json({ msg: statusMessage. BOOKING_NOT_FOND});
             }
-            return res.status(200).json({ msg: statusMessage.UPDATE_SUCCESS, apartment });
+            return res.status(200).json({ msg: statusMessage.UPDATE_SUCCESS, result: {booking, email: `ມີການຈອງເຂົ້າໃໝ່ຈາກ ${email} ສະຖານະ ${emailInfo}` }});
         } catch (error) {
             return res.status(500).json({ msg: statusMessage.SERVER_ERROR, error });
         }
     }
-    
+
     //MEAN: Update the booking status to success or cancel
     static async updateEnd(req, res) {
         try {
@@ -93,11 +96,19 @@ class BookingController {
             if (!_id) {
                 return res.status(400).json({ msg: statusMessage.BAD_REQUEST });
             }
-            const statusBooking = await Models.booking.findById(_id)
-            if(statusBooking.bookingStatus !== "PROCESS"){
-                return res.status(400).json({msg: statusMessage.PERMISSION_DENIED})
+            const customerBooking = await Models.booking.findById(_id)
+            if (customerBooking.bookingStatus !== "PROCESS") {
+                return res.status(400).json({ msg: statusMessage.PERMISSION_DENIED })
             }
-            
+            const customerEmail = customerBooking.email
+            let emailInfo
+            if (bookingStatus == "SUCCESS") {
+                emailInfo = await sendEmail(customerEmail, statusMessage.BOOKING_SUCCESS);
+            }
+            else{
+                emailInfo = await sendEmail(customerEmail, statusMessage.BOOKING_CANCEL);
+            }
+
             //MEAN: Add ID admin who is update this booking then update date time
             const data = {
                 ...req.body,
@@ -111,9 +122,9 @@ class BookingController {
                 { new: true }
             );
             if (!booking) {
-                return res.status(404).json({ msg: statusMessage.NOT_FOUND });
+                return res.status(404).json({ msg: statusMessage.BOOKING_NOT_FOND });
             }
-            return res.status(200).json({ msg: statusMessage.UPDATE_SUCCESS, apartment });
+            return res.status(200).json({ msg: statusMessage.UPDATE_SUCCESS, result:{booking, email:` ສົ່ງ Gmail ສຳເລັດໄປທີ່ ${customerEmail} ສະຖານະ ${emailInfo}`  }});
         } catch (error) {
             return res.status(500).json({ msg: statusMessage.SERVER_ERROR, error });
         }
