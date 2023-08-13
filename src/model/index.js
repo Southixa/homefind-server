@@ -4,6 +4,7 @@ import home from "./homeModel.js"
 import apartment from "./apartmentModel.js"
 import booking from "./bookingModel.js"
 import favorite from "./favoriteModel.js"
+import checkout from "./checkoutModel.js"
 
 export const Models ={
     user,
@@ -11,5 +12,6 @@ export const Models ={
     home,
     apartment,
     booking,
-    favorite
+    favorite,
+    checkout
 }

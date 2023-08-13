@@ -32,5 +32,12 @@ export const statusMessage = {
     SERVER_ERROR: "SERVER_ERROR",
     PERMISSION_DENIED: "PERMISSION_DENIED",
     APARTMENT_NOT_FOND: "APARTMENT_NOT_FOND",
-    HOME_NOT_FOND: "HOME_NOT_FOND"
+    HOME_NOT_FOND: "HOME_NOT_FOND",
+    BOOKING_NOT_FOND: "BOOKING_NOT_FOND",
+    CHECKOUT_NOT_FOND: "CHECKOUT_NOT_FOND",
+    SUBJECT: "HOME_FIND",
+    SERVICE: "gmail",
+    BOOKING_MESSAGE: '✅ການຈອງໃໝ່ເຂົ້າມາຈາກ',
+    BOOKING_SUCCESS: '✅ການຈອງຂອງທ່ານຖືກກວດສອບສຳເລັດເເລ້ວ... ກະລຸນາລໍຖ້າພະນັກງານຕິດຕໍ່ຫາຂໍຂອບໃຈ',
+    BOOKING_CANCEL: '❌ການຈອງຂອງທ່ານບໍ່ສຳເລັດ... ຂໍໂທດ🙏🏻ສຳລັບຄວາມບໍ່ສະດວກການບໍລິການທີ່ທ່ານຈອງນັ້ນເຕັມເເລ້ວ'
 }
