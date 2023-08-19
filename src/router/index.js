@@ -16,6 +16,7 @@ route.post("/user/forgetPassword",Controllers.userController.forgetPassword)
 route.put("/user/update",verifyToken, Controllers.userController.updateUser)
 route.put("/user/updatePassword",verifyToken, Controllers.userController.updatePassword)
 route.delete("/user/delete/:_id",verifyTokenAndAdminOrStaff, Controllers.userController.deleteUser)
+route.get("/user/getProfile",verifyToken, Controllers.userController.getProfile)
 route.get("/user/gets",verifyTokenAndAdminOrStaff, Controllers.userController.getUsers)
 route.get("/user/get/:_id",verifyToken, Controllers.userController.getUsers)
 
