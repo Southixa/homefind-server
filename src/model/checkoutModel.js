@@ -6,6 +6,10 @@ const checkoutSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "user"
     },
+    booking: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "booking"
+    },
     staffCommission:{
         type: Number,
         default: 0

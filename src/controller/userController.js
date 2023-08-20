@@ -3,6 +3,21 @@ import { statusMessage } from "../config/index.js";
 import { Models } from "../model/index.js";
 
 class UserController {
+    static async getProfile(req, res) {
+        try {
+            if (!req.payload._id) {
+                return res.status(400).json({ msg: statusMessage.BAD_REQUEST });
+            }
+            const user = await Models.user.findById(req.payload._id);
+            if (!user) {
+                return res.status(400).json({ msg: statusMessage.USER_NOT_FOUND })
+            };
+            return res.status(200).json({ msg: statusMessage.GET_SUCCESS, user });
+        } catch (error) {
+            return res.status(500).json({ msg: statusMessage.SERVER_ERROR, error });
+        }
+    }
+
     static async getUser(req, res) {
         try {
             if (!req.params._id) {
