@@ -3,7 +3,6 @@ import { statusMessage } from "../config/index.js";
 import { Models } from "../model/index.js";
 
 class UserController {
-
     static async getProfile(req, res) {
         try {
             if (!req.payload._id) {
