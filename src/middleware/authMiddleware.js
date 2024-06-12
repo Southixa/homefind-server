@@ -1,22 +1,20 @@
 import jwt from "jsonwebtoken";
 import { statusMessage, tokenSet } from "../config/index.js";
+//import crypt from "crypto-js";
 
-//MEAN: Generate Access Token
-export const GenerateToken = async (data) => {
-  try {
-    let token = jwt.sign(data, tokenSet.JWT_SECRET_KEY, { expiresIn: tokenSet.TOKEN_EXPIRE_TIME });
-    return token;
-  } catch (error) {
-    throw error;
-  }
-};
+
 
 //MEAN: Verify Token 
 export const verifyToken = async (req, res, next) => {
   const authorization = req.headers['authorization'];
+  const token = authorization.split(' ')[1];
+  console.log("token =>>> ");
+  console.log(token);
   try {
-    jwt.verify(authorization, tokenSet.JWT_SECRET_KEY, (err, payload) => {
+    jwt.verify(token, tokenSet.JWT_SECRET_KEY, (err, payload) => {
       if (err) {
+        console.log('err of verify jwt');
+        console.log(err);
         return res.status(403).json({ msg: statusMessage.TOKEN_IS_NOT_VALID });
       }
       req.payload = payload;

@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import { JWT_SECRET_KEY } from "./globalKey.js";
 dotenv.config();
 
 export const node = {
@@ -17,6 +18,8 @@ export const role = {
 };
 
 export const statusMessage = {
+    REGISTER: "REGISTER SUCCESS",
+    LOGIN: "LOGIN SUCCESS",
     TOKEN_IS_NOT_VALID: "TOKEN_IS_NOT_VALID",
     ADMIN_ROLE: "ADMIN_ROLE",
     PERMISSION_DENIED: "PERMISSION_DENIED",
@@ -32,6 +35,7 @@ export const statusMessage = {
     SERVER_ERROR: "SERVER_ERROR",
     PERMISSION_DENIED: "PERMISSION_DENIED",
     APARTMENT_NOT_FOND: "APARTMENT_NOT_FOND",
+    NOT_FOUND: "NOT FOUND",
     HOME_NOT_FOND: "HOME_NOT_FOND",
     BOOKING_NOT_FOND: "BOOKING_NOT_FOND",
     CHECKOUT_NOT_FOND: "CHECKOUT_NOT_FOND",

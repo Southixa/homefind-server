@@ -1,4 +1,5 @@
 import express from "express";
+import CategoryController from "../controller/category.controller.js";
 import { Controllers } from "../controller/index.js";
 import { verifyToken, verifyTokenAndAdmin, verifyTokenAndAdminOrStaff } from "../middleware/authMiddleware.js";
 
@@ -9,9 +10,16 @@ const route = express.Router();
 route.post("/auth/register",Controllers.authController.registerUser)
 route.post("/auth/login",Controllers.authController.login)
 
+//----------------------- Category -------------------------------
+route.get("/category/getAll",verifyTokenAndAdminOrStaff,CategoryController.getAll)
+route.get("/category/getOne/:categoryId",verifyTokenAndAdminOrStaff,CategoryController.getOne)
+route.post("/category/create",verifyTokenAndAdminOrStaff,CategoryController.insert)
+route.put("/category/update/:categoryId",verifyTokenAndAdminOrStaff,CategoryController.updateCategory)
+route.delete("/category/update/:categoryId",verifyTokenAndAdminOrStaff,CategoryController.deleteCategory)
 //======================= userController =============================
 
 route.post("/user/create",verifyTokenAndAdminOrStaff, Controllers.userController.createUser)
+route.post("/user/band/:userId",verifyTokenAndAdminOrStaff,Controllers.userController.bandUser)
 route.post("/user/forgetPassword",Controllers.userController.forgetPassword)
 route.put("/user/update",verifyToken, Controllers.userController.updateUser)
 route.put("/user/updatePassword",verifyToken, Controllers.userController.updatePassword)
@@ -19,7 +27,7 @@ route.delete("/user/delete/:_id",verifyTokenAndAdminOrStaff, Controllers.userCon
 route.get("/user/getProfile",verifyToken, Controllers.userController.getProfile)
 route.get("/user/gets",verifyTokenAndAdminOrStaff, Controllers.userController.getUsers)
 route.get("/user/get/:_id",verifyToken, Controllers.userController.getUsers)
-
+route.post("/user/getBand",verifyTokenAndAdmin,Controllers.userController.getBandUser)
 //======================= uploadFile =================================
 
 route.post("/uploadFile", Controllers.uploadFileController.uploadFile)

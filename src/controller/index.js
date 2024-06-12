@@ -16,5 +16,6 @@ export const Controllers = {
     uploadFileController,
     bookingController,
     favoriteController,
-    checkoutController
+    checkoutController,
+
 }

@@ -23,6 +23,10 @@ const userSchema = new Schema({
         type: Date,
         default: Date.now,
     },
+    isPubilc: {
+        type: Boolean,
+        default: true,
+    },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
