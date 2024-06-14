@@ -1,4 +1,5 @@
 import express from "express";
+import BannerController from "../controller/banner.controller.js";
 import CategoryController from "../controller/category.controller.js";
 import { Controllers } from "../controller/index.js";
 import { verifyToken, verifyTokenAndAdmin, verifyTokenAndAdminOrStaff } from "../middleware/authMiddleware.js";
@@ -16,6 +17,13 @@ route.get("/category/getOne/:categoryId",verifyTokenAndAdminOrStaff,CategoryCont
 route.post("/category/create",verifyTokenAndAdminOrStaff,CategoryController.insert)
 route.put("/category/update/:categoryId",verifyTokenAndAdminOrStaff,CategoryController.updateCategory)
 route.delete("/category/update/:categoryId",verifyTokenAndAdminOrStaff,CategoryController.deleteCategory)
+//----------------------- banner --------------------------
+route.get("/banner/getAll",verifyTokenAndAdminOrStaff,BannerController.getAll);
+route.get("/banner/getOne/:bannerId",verifyTokenAndAdminOrStaff,BannerController.getOne)
+route.post("/banner/insert",verifyTokenAndAdminOrStaff,BannerController.insert);
+route.put("/banner/update/:bannerId",verifyTokenAndAdminOrStaff,BannerController.updateBanner);
+route.put("/banner/status/:bannerId",verifyTokenAndAdminOrStaff,BannerController.updateStatus);
+route.delete("/banner/delete/:bannerId",verifyTokenAndAdminOrStaff,BannerController.deleteBanner)
 //======================= userController =============================
 
 route.post("/user/create",verifyTokenAndAdminOrStaff, Controllers.userController.createUser)
