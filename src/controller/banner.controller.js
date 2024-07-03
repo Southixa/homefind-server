@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import UploadToCloudinary from "../config/cloudinary.js";
+import { UploadToCloudinary } from "../config/cloudinary.js";
 import { statusMessage } from "../config/index.js";
 import { Models } from "../model/index.js";
 import { SMessage, EMessage } from "../service/message.js";
@@ -33,11 +33,11 @@ export default class BannerController {
   static async insert(req, res) {
     try {
       const { title, detail } = req.body;
-      const validate = await ValidateData({ title, image });
+      const validate = await ValidateData({ title });
       if (validate.length > 0) {
         return SendError(res, 400, EMessage.pleaseInput + validate.join(","));
       }
-      const image = req.file;
+      const image = req.files;
       if (!image) {
         return SendError(res, 400, statusMessage.NOT_FOUND + " image");
       }
@@ -56,13 +56,14 @@ export default class BannerController {
       }
       return SendCreate(res, SMessage.INSERT, banner);
     } catch (error) {
+      console.log("error on insert banner", error);
       return SendError(res, 500, statusMessage.SERVER_ERROR, error);
     }
   }
   static async updateBanner(req, res) {
     try {
       const bannerId = req.params.bannerId;
-      if (mongoose.Types.ObjectId.isValid(bannerId)) {
+      if (!mongoose.Types.ObjectId.isValid(bannerId)) {
         return SendError(res, 404, statusMessage.NOT_FOUND + " banner");
       }
       const { title, detail } = req.body;
@@ -70,7 +71,7 @@ export default class BannerController {
       if (validate.length > 0) {
         return SendError(res, 400, EMessage.pleaseInput + validate.join(","));
       }
-      const image = req.file;
+      const image = req.files;
       if (!image) {
         return SendError(res, 400, statusMessage.NOT_FOUND + " image");
       }
@@ -112,7 +113,7 @@ export default class BannerController {
   static async deleteBanner(req, res) {
     try {
       const bannerId = req.params.bannerId;
-      if (mongoose.Types.ObjectId.isValid(bannerId)) {
+      if (!mongoose.Types.ObjectId.isValid(bannerId)) {
         return SendError(res, 404, statusMessage.NOT_FOUND + " banner");
       }
 

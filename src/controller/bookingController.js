@@ -31,7 +31,7 @@ class BookingController {
                 booking = await Models.booking.find({ bookingStatus })
             }
             else {
-                booking = await Models.booking.find({})
+                booking = await Models.booking.find({}).populate('apartment').exec();
             }
             return res.status(200).json({ msg: statusMessage.GET_SUCCESS, booking });
         } catch (error) {
@@ -96,9 +96,9 @@ class BookingController {
                 return res.status(400).json({ msg: statusMessage.BAD_REQUEST });
             }
             const customerBooking = await Models.booking.findById(_id)
-            if (customerBooking.bookingStatus !== "PROCESS") {
-                return res.status(400).json({ msg: statusMessage.PERMISSION_DENIED })
-            }
+            // if (customerBooking.bookingStatus !== "PROCESS") {
+            //     return res.status(400).json({ msg: statusMessage.PERMISSION_DENIED })
+            // }
             const customerEmail = customerBooking.email
             let emailInfo
             if (bookingStatus == "SUCCESS") {

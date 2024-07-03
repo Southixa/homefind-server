@@ -58,7 +58,7 @@ class AuthController {
         return SendError(res, 401, statusMessage.PASSWORD_NOT_MATCH);
       }
       const payload = {
-        _id: user._id,
+        id: user._id.toString(),
         role: user.role,
       };
      const newUser = await Models.user.findById(user._id).select('-password')

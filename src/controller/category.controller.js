@@ -44,7 +44,7 @@ export default class CategoryController {
   static async updateCategory(req, res) {
     try {
       const categoryId = req.params.categoryId;
-      if (mongoose.Types.ObjectId.isValid(categoryId)) {
+      if (!mongoose.Types.ObjectId.isValid(categoryId)) {
         return SendError(res, 404, statusMessage.NOT_FOUND + "category");
       }
       const { title } = req.body;
@@ -64,7 +64,7 @@ export default class CategoryController {
   static async deleteCategory(req, res) {
     try {
       const categoryId = req.params.categoryId;
-      if (mongoose.Types.ObjectId.isValid(categoryId)) {
+      if (!mongoose.Types.ObjectId.isValid(categoryId)) {
         return SendError(res, 404, statusMessage.NOT_FOUND + "category");
       }
 

@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { statusMessage, tokenSet } from "../config/index.js";
+import { Decrypt } from "../service/service.js";
 //import crypt from "crypto-js";
 
 
@@ -7,17 +8,21 @@ import { statusMessage, tokenSet } from "../config/index.js";
 //MEAN: Verify Token 
 export const verifyToken = async (req, res, next) => {
   const authorization = req.headers['authorization'];
+  if(!authorization) {
+    return res.status(401).json({ msg: statusMessage.TOKEN_IS_NOT_VALID })
+  }
   const token = authorization.split(' ')[1];
-  console.log("token =>>> ");
-  console.log(token);
   try {
-    jwt.verify(token, tokenSet.JWT_SECRET_KEY, (err, payload) => {
+    jwt.verify(token, tokenSet.JWT_SECRET_KEY, async (err, payload) => {
       if (err) {
-        console.log('err of verify jwt');
         console.log(err);
         return res.status(403).json({ msg: statusMessage.TOKEN_IS_NOT_VALID });
       }
-      req.payload = payload;
+      req.payload = {
+        ...payload,
+        _id: payload.id,
+        role: await Decrypt(payload.role),
+      }
       return next();
     });
   } catch (error) {

@@ -1,12 +1,12 @@
 import cloudinary from "cloudinary";
-import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_NAME } from "./globalKey";
+import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_NAME } from "./globalKey.js";
 cloudinary.config({
   cloud_name: CLOUDINARY_NAME,
   api_key: CLOUDINARY_API_KEY,
   api_secret: CLOUDINARY_API_SECRET,
 });
 
-const UploadToCloudinary = async (files, oldImage) => {
+export const UploadToCloudinary = async (files, oldImage) => {
   try {
     if (oldImage) {
       const spliturl = oldImage.split("/");
@@ -26,4 +26,15 @@ const UploadToCloudinary = async (files, oldImage) => {
   }
 };
 
-export default UploadToCloudinary;
+export const DeleteFromCloudinary = async (oldImage) => {
+  try {
+    const spliturl = oldImage.split("/");
+    const img_id = spliturl[spliturl.length - 1].split(".")[0];
+    const { result } = await cloudinary.uploader.destroy(img_id);
+    if(result == "not found") return false
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false
+  }
+};

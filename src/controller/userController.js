@@ -24,7 +24,7 @@ class UserController {
         return SendError(res, 400, statusMessage.NOT_FOUND + " user");
       }
       const { isPubilc } = req.body;
-      if (!isPubilc) {
+      if (isPubilc === undefined) {
         return SendError(res, 400, "isPubilc is required!");
       }
       const user = await Models.user.findByIdAndUpdate(
@@ -70,7 +70,8 @@ class UserController {
 
   static async getUsers(req, res) {
     try {
-      const user = await Models.user.find({isPubilc: true});
+      //const user = await Models.user.find({isPubilc: true});
+      const user = await Models.user.find();
       return res.status(200).json({ msg: statusMessage.GET_SUCCESS, user });
     } catch (error) {
       return res.status(500).json({ msg: statusMessage.SERVER_ERROR, error });
@@ -136,6 +137,7 @@ class UserController {
         .status(200)
         .json({ msg: statusMessage.UPDATE_SUCCESS, ...others });
     } catch (error) {
+      console.log("error in update user: ", error);
       return res.status(500).json({ msg: statusMessage.SERVER_ERROR, error });
     }
   }

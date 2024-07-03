@@ -16,7 +16,7 @@ route.get("/category/getAll",verifyTokenAndAdminOrStaff,CategoryController.getAl
 route.get("/category/getOne/:categoryId",verifyTokenAndAdminOrStaff,CategoryController.getOne)
 route.post("/category/create",verifyTokenAndAdminOrStaff,CategoryController.insert)
 route.put("/category/update/:categoryId",verifyTokenAndAdminOrStaff,CategoryController.updateCategory)
-route.delete("/category/update/:categoryId",verifyTokenAndAdminOrStaff,CategoryController.deleteCategory)
+route.delete("/category/delete/:categoryId",verifyTokenAndAdminOrStaff,CategoryController.deleteCategory)
 //----------------------- banner --------------------------
 route.get("/banner/getAll",verifyTokenAndAdminOrStaff,BannerController.getAll);
 route.get("/banner/getOne/:bannerId",verifyTokenAndAdminOrStaff,BannerController.getOne)
@@ -39,6 +39,8 @@ route.post("/user/getBand",verifyTokenAndAdmin,Controllers.userController.getBan
 //======================= uploadFile =================================
 
 route.post("/uploadFile", Controllers.uploadFileController.uploadFile)
+route.post("/deleteFile/", verifyTokenAndAdminOrStaff, Controllers.uploadFileController.deleteFile)
+
 
 //======================= apartmentController =========================
 
@@ -63,7 +65,7 @@ route.get("/home/getAllByCustomer",Controllers.homeController.getHomesByCustomer
 route.post("/booking/create",verifyToken,Controllers.bookingController.createBooking)
 route.put("/booking/updateProccess",verifyToken,Controllers.bookingController.updateToProcess)
 route.put("/booking/updateEnd",verifyTokenAndAdminOrStaff,Controllers.bookingController.updateEnd)
-route.delete("/booking/delete:_id",verifyTokenAndAdminOrStaff,Controllers.bookingController.deleteBooking)
+route.delete("/booking/delete/:_id",verifyTokenAndAdminOrStaff,Controllers.bookingController.deleteBooking)
 route.get("/booking/get/:_id",verifyToken,Controllers.bookingController.getBooking)
 route.get("/booking/gets",verifyTokenAndAdminOrStaff,Controllers.bookingController.getBookings)
 

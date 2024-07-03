@@ -91,7 +91,7 @@ export const GenerateRefreshToken = async (refreshToken) => {
 };
 export const GenerateToken = async (data) => {
   var paylod = {
-    id: await encrypt(data.id),
+    id: data.id,
     role: await encrypt(data.role),
   };
   var paylod_refresh = {
