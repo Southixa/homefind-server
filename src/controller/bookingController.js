@@ -31,7 +31,7 @@ class BookingController {
                 booking = await Models.booking.find({ bookingStatus })
             }
             else {
-                booking = await Models.booking.find({}).populate('apartment').exec();
+                booking = await Models.booking.find({}).populate('apartment').populate('home').exec();
             }
             return res.status(200).json({ msg: statusMessage.GET_SUCCESS, booking });
         } catch (error) {
